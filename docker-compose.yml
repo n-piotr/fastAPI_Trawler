@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: "web"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: sh -c "alembic upgrade head && uvicorn app:app --host 0.0.0.0 --port 8000"
+    volumes:
+      - .:/web
+    environment:
+      - DATABASE_URL=postgresql://admin:admin@postgres:5432/admin_bd
+      - SECRET_KEY=dfe85fec1f9e9698116531c17953103ff2c55eea4c8b150118a02cc42f5c5a71
+    depends_on:
+    - db
+
+  db:
+    image: postgres:15.3-alpine3.18
+    hostname: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=admin_bd
