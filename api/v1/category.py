@@ -1,25 +1,34 @@
 from fastapi import APIRouter, Path, HTTPException
 from starlette import status
 
+from fastapi_cache.decorator import cache
+
 from core.repositories import Category
 from core.types import CategoryDetail
+
+from core.tasks import ping  # Celery test
 
 router = APIRouter()
 
 
 @router.get(
-    path="/category",
+    path="/categories",
     response_model=list[CategoryDetail],
     summary="Список категорий",
     tags=["Категория"]
 )
-async def all_categories(repository: Category):
-    return repository.all()
+@cache(expire=60)
+async def all_categories(manager: Category):
+    ping.delay()  # Celery test
+    print(ping.delay())  # Celery task id
+
+    return manager.all()
 
 
 @router.get(
-    path="/category/{pk}",
+    path="/categories/{pk}",
     response_model=CategoryDetail,
+    # dependencies=[IsAuthenticated],
     status_code=status.HTTP_200_OK,
     summary="Получение категории",
     description="""
@@ -27,7 +36,8 @@ async def all_categories(repository: Category):
     """,
     tags=["Категория"]
 )
-async def get_category(repository: Category, pk: int = Path(ge=1, title="Category ID", example=42)):
+@cache(expire=60)
+async def get(manager: Category, pk: int = Path(ge=1, title="Category ID", example=42)):
     """Ссылка для получения категории по ID
 
     Args:
@@ -42,4 +52,12 @@ async def get_category(repository: Category, pk: int = Path(ge=1, title="Categor
     ------
         HTTPException 404 Если категория не найдена
     """
-    return repository.get(pk=pk)
+    return manager.get(pk=pk)
+
+
+async def update(manager: Category, pk: int = Path(ge=1, example=42)):
+    pass
+
+
+async def delete(manager: Category, pk: int = Path(ge=1, example=42)):
+    return manager.delete(pk=pk)

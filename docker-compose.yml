@@ -11,11 +11,68 @@ services:
     command: sh -c "alembic upgrade head && uvicorn app:app --host 0.0.0.0 --port 8000"
     volumes:
       - .:/web
-    environment:
-      - DATABASE_URL=postgresql://admin:admin@postgres:5432/admin_bd
-      - SECRET_KEY=dfe85fec1f9e9698116531c17953103ff2c55eea4c8b150118a02cc42f5c5a71
+
+    env_file:
+      - docker_common_variables.env
+#    environment:
+#      - REDIS_URL=redis://redis:6379/0
+#      - CELERY_BROKER_URL=redis://redis:6379/1
+#      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+#      - DATABASE_URL=postgresql://admin:admin@postgres:5432/admin_bd
+#      - SECRET_KEY=dfe85fec1f9e9698116531c17953103ff2c55eea4c8b150118a02cc42f5c5a71
     depends_on:
     - db
+    - redis
+
+  celery-worker:
+    container_name: "celery-worker"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A core.celery:celery worker -l INFO"  # --concurrency=10
+    volumes:
+      - .:/web
+    env_file:
+      - docker_common_variables.env
+    depends_on:
+      - db
+      - redis
+      - web
+      - celery-beat
+
+  celery-beat:
+    container_name: "celery-beat"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A core.celery:celery beat -l INFO"
+    volumes:
+      - .:/web
+    env_file:
+      - docker_common_variables.env
+    depends_on:
+      - db
+      - redis
+      - web
+
+  celery-flower:
+    container_name: "celery-flower"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A core.celery:celery flower --port=5001"
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/web
+    env_file:
+      - docker_common_variables.env
+    depends_on:
+      - db
+      - redis
+      - web
+      - celery-beat
+      - celery-worker
 
   db:
     image: postgres:15.3-alpine3.18
@@ -24,3 +81,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=admin_bd
+
+  redis:
+    image: redis:7.2.2-alpine3.18
+    hostname: redis
