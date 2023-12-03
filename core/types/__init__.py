@@ -1,5 +1,7 @@
 from .post import *
 from .category import *
+from .user import *
+from .token import TokenDetail
 
 __all__ = [
     # post
@@ -7,5 +9,11 @@ __all__ = [
     "PostDetail",
     "PostEdit",
     # category
-    "CategoryDetail"
+    "CategoryDetail",
+    # user
+    "UserDetail",
+    "UserLoginForm",
+    "UserRegisterForm",
+    # token
+    "TokenDetail"
 ]

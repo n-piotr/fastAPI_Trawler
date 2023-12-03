@@ -24,8 +24,8 @@ class SQLAlchemyRepository(AbstractRepository):
             if obj is not None:
                 return self.schema.model_validate(obj=obj, from_attributes=True)
 
-    def create(self, obj: BaseModel) -> BaseModel:
-        obj = self.model(**obj.model_dump())
+    def create(self, obj: BaseModel, exclude: set[str] = None) -> BaseModel:
+        obj = self.model(**obj.model_dump(exclude=exclude))
         with self.session() as session:
             session.add(obj)
             session.commit()

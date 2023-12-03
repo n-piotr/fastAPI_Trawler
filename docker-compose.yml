@@ -55,24 +55,24 @@ services:
       - redis
       - web
 
-  celery-flower:
-    container_name: "celery-flower"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: "celery -A core.celery:celery flower --port=5001"
-    ports:
-      - "5001:5001"
-    volumes:
-      - .:/web
-    env_file:
-      - docker_common_variables.env
-    depends_on:
-      - db
-      - redis
-      - web
-      - celery-beat
-      - celery-worker
+#  celery-flower:
+#    container_name: "celery-flower"
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: "celery -A core.celery:celery flower --port=5001"
+#    ports:
+#      - "5001:5001"
+#    volumes:
+#      - .:/web
+#    env_file:
+#      - docker_common_variables.env
+#    depends_on:
+#      - db
+#      - redis
+#      - web
+#      - celery-beat
+#      - celery-worker
 
   db:
     image: postgres:15.3-alpine3.18

@@ -36,11 +36,12 @@ async def my_handler(client, message: Message):  # pyrogram expects 2 parameters
         # save_to_db(group, time, message)
         # TODO message.text can be 'None' (when image sent, ...)
         print()
-        print(f"***{message.chat.title}(@{message.chat.username}): {message.text}")  # full message example: temp.json
+        print(
+            f"***{message.chat.title}(@{message.chat.username}): {message.text} (message id: {message.id})")  # full message example: temp.json
         print()
         print('-----------------------------------------------------------------')
     else:
-        print(f"{message.chat.title}(@{message.chat.username}): {message.text}")
+        print(f"{message.chat.title}(@{message.chat.username}): {message.text} (message id: {message.id})")
         print('-----------------------------------------------------------------')
 
 

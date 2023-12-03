@@ -5,16 +5,20 @@ from sqlalchemy import (
     CheckConstraint,
     INT,
     ForeignKey,
-    TIMESTAMP
+    TIMESTAMP,
+    CHAR,
+    BOOLEAN
 )
 from sqlalchemy.orm import relationship
+from ulid import parse
 
 from .base import Base
 
 __all__ = [
     "Base",
     "Category",
-    "Post"
+    "Post",
+    "User"
 ]
 
 
@@ -57,3 +61,20 @@ class Post(Base):
 
     def __str__(self):
         return self.title
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(CHAR(26), primary_key=True)  # ULID
+    email = Column(VARCHAR(128), nullable=False, unique=True)
+    password = Column(CHAR(60), nullable=False)  # hash
+    is_active = Column(BOOLEAN, default=False)
+    is_staff = Column(BOOLEAN, default=False)
+
+    @property
+    def date_register(self):
+        return parse(self.id).timestamp().datetime
+
+    def __str__(self):
+        return self.email
