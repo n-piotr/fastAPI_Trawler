@@ -25,10 +25,10 @@ app.add_middleware(
     allow_origins=("0.0.0.0", "127.0.0.1", "*"),
     allow_methods=("GET", "POST", "PATCH", "DELETE", "HEAD")
 )
-# app.add_middleware(
-#     middleware_class=AuthenticationMiddleware,
-#     backend=JWTAuthenticationBackend()
-# )
+app.add_middleware(
+    middleware_class=AuthenticationMiddleware,
+    backend=JWTAuthenticationBackend()
+)
 app.add_middleware(
     middleware_class=AuthenticationMiddleware,
     backend=SessionAuthenticationBackend()

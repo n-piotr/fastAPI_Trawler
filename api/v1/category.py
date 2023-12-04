@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     path="/categories",
-    response_model=list[CategoryDetail]
+    response_model=list[CategoryDetail],
 )
 @cache(expire=60)
 async def all_categories(manager: Category):

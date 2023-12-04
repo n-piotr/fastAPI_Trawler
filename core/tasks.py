@@ -9,20 +9,20 @@ from core.celery import celery, settings
 def send_email(email: str, url: str):
 
     msg = MIMEMultipart()
-    msg['From'] = settings.YANDEX_USER
+    msg['From'] = settings.EMAIL_USER
     msg['To'] = email
     msg['Subject'] = "Email Verify"
 
     msg.attach(MIMEText(url))
 
-    server = smtplib.SMTP(settings.YANDEX_HOST, settings.YANDEX_PORT)
+    server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
     server.ehlo()
     server.starttls()
     server.ehlo()
 
-    server.login(settings.YANDEX_USER, settings.YANDEX_APP_PASSWORD.get_secret_value())
+    server.login(settings.EMAIL_USER, settings.EMAIL_PASSCODE.get_secret_value())
     server.sendmail(
-        settings.YANDEX_USER,
+        settings.EMAIL_USER,
         email,
         msg.as_string()
     )

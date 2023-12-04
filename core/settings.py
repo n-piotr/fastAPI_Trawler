@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     CELERY_RESULT_BACKEND: RedisDsn  # results
     BASE_DIR: Path = Path(__file__).resolve().parent
     EXP_JWT: int
+    EMAIL_PASSCODE: SecretStr
+    EMAIL_HOST: str
+    EMAIL_PORT: int
+    EMAIL_USER: str  # from where verification e-mail sent
 
 
 settings = Settings()

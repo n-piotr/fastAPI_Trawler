@@ -27,7 +27,8 @@ async def delete_from_redis(name: str) -> None:
     await redis.delete(name)
 
 
+# link to send by e-mail
 async def create_user_verify_url(user_id: str) -> str:
     code = str(uuid4())
     await save_to_redis(name=code, value=user_id)
-    return f"http://0.0.0.0:8000/api/verify/{code}"
+    return f"http://127.0.0.1:8000/api/verify/{code}"

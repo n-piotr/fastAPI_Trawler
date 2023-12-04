@@ -41,8 +41,8 @@ async def sing_in(data: UserLoginForm):
     if user is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="user not found")
 
-    # if not user.is_active:
-    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="not active")
+    if not user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="not active")
 
     if not data.validate_password(hash_password=user.password):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="password invalid")
