@@ -6,4 +6,4 @@ __all__ = ["TokenDetail"]
 
 class TokenDetail(Schema):
     token: str
-    expire: int = 300
+    expire: int = 3000

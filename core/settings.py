@@ -5,6 +5,7 @@ from passlib.context import CryptContext
 from pydantic import PostgresDsn, SecretStr, RedisDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from redis.asyncio import Redis
+
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -22,7 +23,7 @@ class Settings(BaseSettings):
     REDIS_URL: RedisDsn
     CELERY_BROKER_URL: RedisDsn  # tasks
     CELERY_RESULT_BACKEND: RedisDsn  # results
-    BASE_DIR: Path = Path(__file__).resolve().parent
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent
     EXP_JWT: int
     EMAIL_PASSCODE: SecretStr
     EMAIL_HOST: str
@@ -33,10 +34,11 @@ class Settings(BaseSettings):
 settings = Settings()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 redis = Redis.from_url(url=settings.REDIS_URL.unicode_string())
-# static = StaticFiles(
-#     directory=settings.BASE_DIR / "static"
-# )
-# templating = Jinja2Templates(
-#     directory=settings.BASE_DIR / "templates"
-# )
+
+static = StaticFiles(
+    directory=settings.BASE_DIR / "static"
+)
+templating = Jinja2Templates(
+    directory=settings.BASE_DIR / "templates"
+)
 # templating.env.globals["time_now"] = datetime.utcnow

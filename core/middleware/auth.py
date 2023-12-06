@@ -24,6 +24,7 @@ class JWTAuthenticationBackend(AuthenticationBackend):
     async def authenticate(
         self, conn: HTTPConnection
     ) -> typing.Optional[typing.Tuple["AuthCredentials", "AuthenticatedUser"]]:
+        # print(conn.headers)  # TEMP debug
         if "Authorization" not in conn.headers:
             return
 

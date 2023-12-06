@@ -8,17 +8,23 @@ from sqladmin import Admin
 
 from redis.asyncio import Redis
 
-from core.settings import settings
+from core.settings import settings, static
 from core.database import engine
 from core.admin import CategoryAdmin, PostAdmin
 from core.middleware import JWTAuthenticationBackend, SessionAuthenticationBackend
 
 from api import router as api_router
+from web.views import router as web_router
 
 app = FastAPI(
     title="Trawler",
     summary="Collect filtered jobs postings in Telegram public groups",
     default_response_class=ORJSONResponse,
+)
+app.mount(
+    path="/static",
+    app=static,
+    name="static"
 )
 app.add_middleware(
     middleware_class=CORSMiddleware,
@@ -34,6 +40,7 @@ app.add_middleware(
     backend=SessionAuthenticationBackend()
 )
 app.include_router(router=api_router)
+app.include_router(router=web_router)
 admin = Admin(app=app, engine=engine)
 admin.add_view(view=PostAdmin)
 admin.add_view(view=CategoryAdmin)
