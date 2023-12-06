@@ -47,15 +47,15 @@ class Post(Base):
     )
 
     id = Column(INT, primary_key=True)
-    title = Column(VARCHAR(128), nullable=False)
-    body = Column(VARCHAR(500), nullable=False)
-    salary = Column(VARCHAR(128), nullable=True)
+    title = Column(VARCHAR(256), nullable=False)
+    body = Column(VARCHAR(3000), nullable=False)
+    tg_link = Column(VARCHAR(256), nullable=True)  # TODO switch to nullable=False after migration and filling
+    date_created = Column(TIMESTAMP, nullable=False)
     category_id = Column(
         SMALLINT,
         ForeignKey("categories.id", ondelete="RESTRICT", onupdate="CASCADE"),
         nullable=False
     )
-    date_created = Column(TIMESTAMP, nullable=False)
 
     category = relationship(argument="Category", back_populates="posts")
 
