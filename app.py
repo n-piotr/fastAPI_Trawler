@@ -10,7 +10,7 @@ from redis.asyncio import Redis
 
 from core.settings import settings, static
 from core.database import engine
-from core.admin import CategoryAdmin, PostAdmin
+from core.admin import CategoryAdmin, PostAdmin, UserAdmin
 from core.middleware import JWTAuthenticationBackend, SessionAuthenticationBackend
 
 from api import router as api_router
@@ -44,6 +44,7 @@ app.include_router(router=web_router)
 admin = Admin(app=app, engine=engine)
 admin.add_view(view=PostAdmin)
 admin.add_view(view=CategoryAdmin)
+admin.add_view(view=UserAdmin)
 
 
 @app.on_event("startup")

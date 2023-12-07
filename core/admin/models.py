@@ -1,12 +1,13 @@
 # https://aminalaee.dev/sqladmin/ - docs
 from sqladmin import ModelView
 
-from ..database import Post, Category
+from ..database import Post, Category, User
 
 
 __all__ = [
     "PostAdmin",
-    "CategoryAdmin"
+    "CategoryAdmin",
+    "UserAdmin"
 ]
 
 
@@ -18,5 +19,11 @@ class PostAdmin(ModelView, model=Post):
 class CategoryAdmin(ModelView, model=Category):
     name_plural = "категории"
     column_list = ["name"]
+
+
+class UserAdmin(ModelView, model=User):
+    name_plural = "пользователи"
+    column_list = ["id", "email"]
+
 
 

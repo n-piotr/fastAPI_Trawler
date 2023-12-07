@@ -33,7 +33,8 @@ async def my_handler(client, message: Message):  # pyrogram expects 2 parameters
     # await message.forward("me")
     if message.chat.username in chosen_groups:
         # TODO save to db
-        # save_to_db(group, time, message)
+        # if [keywords] in message.chat.title or message.text save to db (user's messages table) message.chat.username and message.id
+
         # TODO message.text can be 'None' (when image sent, ...)
         print()
         print(
