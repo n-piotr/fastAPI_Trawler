@@ -1,4 +1,4 @@
-# from datetime import datetime
+from datetime import datetime
 from pathlib import Path
 
 from passlib.context import CryptContext
@@ -41,4 +41,4 @@ static = StaticFiles(
 templating = Jinja2Templates(
     directory=settings.BASE_DIR / "templates"
 )
-# templating.env.globals["time_now"] = datetime.utcnow
+templating.env.globals["time_now"] = datetime.utcnow  # custom functions to templates (time_now() in contact.html)

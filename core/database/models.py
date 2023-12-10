@@ -71,7 +71,7 @@ class User(Base):
     password = Column(CHAR(60), nullable=False)  # hash
     is_active = Column(BOOLEAN, default=False)
     is_staff = Column(BOOLEAN, default=False)
-    # keywords = Column(String, nullable=True)  # TODO search keywords column
+    keywords = Column(VARCHAR(256), nullable=True)
 
     @property
     def date_register(self):
