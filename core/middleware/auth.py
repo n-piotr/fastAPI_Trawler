@@ -19,7 +19,7 @@ class AuthenticatedUser:
         self.display_name = email
 
 
-class JWTAuthenticationBackend(AuthenticationBackend):
+class JWTAuthenticationBackend(AuthenticationBackend):  # API auth
 
     async def authenticate(
         self, conn: HTTPConnection
@@ -40,7 +40,7 @@ class JWTAuthenticationBackend(AuthenticationBackend):
             return AuthCredentials(["authenticated"]), AuthenticatedUser(identity=user_id, email=user.email)
 
 
-class SessionAuthenticationBackend(AuthenticationBackend):
+class SessionAuthenticationBackend(AuthenticationBackend):  # Web app auth
 
     async def authenticate(
         self, conn: HTTPConnection
@@ -49,9 +49,7 @@ class SessionAuthenticationBackend(AuthenticationBackend):
             return
 
         token = conn.cookies.get("session")
-        print(token)
         user_id = await redis.get(name=token)
-        print(user_id)
         if user_id is None:
             return
         user = user_repository.get(pk=user_id.decode())

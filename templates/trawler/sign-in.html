@@ -1,0 +1,42 @@
+{% extends "trawler/base.html" %}
+
+{% block title %}
+SIGN IN
+{% endblock %}
+
+{% block content %}
+{% include "trawler/components/nav.html" %}
+
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Sign In</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <form id="contactForm" method="post">
+                        <!-- Name input-->
+
+                        <!-- Email address input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="email" type="email" placeholder="name@example.com" name="email"/>
+                            <label for="email">Email address</label>
+                        </div>
+                        <!-- Password input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="password" type="password" placeholder="Enter your password..." name="password"/>
+                            <label for="password">Password</label>
+                        </div>
+                        <!-- Submit Button-->
+                        <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "trawler/components/footer.html" %}
+{% endblock %}

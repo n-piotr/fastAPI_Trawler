@@ -5,10 +5,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_index')}}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_contact')}}">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
 
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item"><span class="nav-link text-muted">Settings</span></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="#!">Settings</a></li>
+                {% endif %}
+
+<!--                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_contact')}}">Contact</a></li>-->
+
+                {% if not request.user.is_authenticated %}
+                {# request.user.is_authenticated from views.py Request #}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('register')}}">Sign Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login')}}">Sign In</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
