@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 
 from core.repositories import user_repository
 from core.settings import templating, redis
-from core.database import session, Post
+from core.database import session, Post, User
 from core.types import UserDetail, UserRegisterForm, UserLoginForm
 from core.utils import create_user_verify_url
 from core.tasks import send_email
@@ -24,7 +24,7 @@ router = APIRouter()
     name="trawler_index"
 )
 async def index(request: Request):
-    print(request.user)
+    # print(request.user)
     with session() as s:
         objs = s.query(Post).all()
     return templating.TemplateResponse(
@@ -39,8 +39,7 @@ async def index(request: Request):
 @router.get(
     path="/contact",
     response_class=HTMLResponse,
-    name="trawler_contact",
-    dependencies=[IsAuthenticated]  # TODO move to Settings page
+    name="trawler_contact"
 )
 async def contact(request: Request):
     return templating.TemplateResponse(
@@ -155,3 +154,52 @@ async def _register(request: Request, data: UserRegisterForm = Depends(dependenc
         verify_url = await create_user_verify_url(user_id=user.id)
         send_email.delay(email=user.email, url=verify_url)  # TODO ..8000/api/verify/.. to ..8000/verify.. "OK" template
     return await register(request=request)
+
+
+@router.get(
+    path="/settings",
+    response_class=HTMLResponse,
+    name="settings",
+    dependencies=[IsAuthenticated]  # TODO add to Admin
+)
+async def settings(request: Request):
+
+    # Get session ID from cookies
+    session_id = request.cookies.get("session")
+    if not session_id:
+        raise HTTPException(status_code=400, detail="Session not found")
+    # print(session_id)  # TEMP
+
+    # Get user ID from Redis
+    user_id = await redis.get(session_id)
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User not found")
+
+    with session() as s:
+        user = s.query(User).filter_by(id=user_id.decode()).first()  # .first(), .all() or .one() methods
+
+    return templating.TemplateResponse(
+        name="trawler/settings.html",
+        context={
+            "request": request,
+            "user": user
+        }
+    )
+
+
+@router.post(
+    path="/settings",
+    response_class=HTMLResponse,
+    name="settings"
+)
+async def _settings(
+        request: Request,
+        tg_groups: str = Form(),
+        filter_in: str = Form(),
+        filter_out: str = Form()
+):
+    # actions TODO update user settings in db
+    print(tg_groups)
+    print(filter_in)
+    print(filter_out)
+    return await index(request=request)

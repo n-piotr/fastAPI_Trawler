@@ -9,6 +9,7 @@ from sqlalchemy import (
     CHAR,
     BOOLEAN
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from ulid import parse
 
@@ -71,7 +72,8 @@ class User(Base):
     password = Column(CHAR(60), nullable=False)  # hash
     is_active = Column(BOOLEAN, default=False)
     is_staff = Column(BOOLEAN, default=False)
-    keywords = Column(VARCHAR(256), nullable=True)
+    # keywords = Column(VARCHAR(256), nullable=True)
+    settings = Column(JSONB)
 
     @property
     def date_register(self):

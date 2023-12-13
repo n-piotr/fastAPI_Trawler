@@ -9,7 +9,7 @@
                 {% if not request.user.is_authenticated %}
                 <li class="nav-item"><span class="nav-link text-muted">Settings</span></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="#!">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings')}}">Settings</a></li>
                 {% endif %}
 
 <!--                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_contact')}}">Contact</a></li>-->

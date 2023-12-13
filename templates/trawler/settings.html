@@ -1,0 +1,47 @@
+{% extends "trawler/base.html" %}
+
+{% block title %}
+SETTINGS
+{% endblock %}
+
+{% block content %}
+{% include "trawler/components/nav.html" %}
+
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Settings form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Settings</h1>
+                <p class="lead fw-normal text-muted mb-0">{{ user.settings }}</p>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <form id="contactForm" method="post">
+                        <!-- TG groups input-->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="tg-groups" rows="3" placeholder="tg_channel_name" name="tg_groups" style="min-height: 120px;">{{ user.settings['tg_groups'] }}</textarea>
+<!--                            <input class="form-control" id="tg-groups" type="text" placeholder="tg_channel_name" value="{{ user.settings['tg_groups'] }}" name="tg_groups"/>-->
+                            <label for="tg-groups">Telegram groups</label>
+                        </div>
+                        <!-- filter IN input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="filter-in" type="text" placeholder="filter-in" value="{{ user.settings['filter_in'] }}" name="filter_in"/>
+                            <label for="filter-in">Filter IN</label>
+                        </div>
+                        <!-- filter OUT input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="filter-out" type="text" placeholder="filter-out" value="{{ user.settings['filter_out'] }}" name="filter_out"/>
+                            <label for="filter-out">Filter OUT</label>
+                        </div>
+                        <!-- Submit Button-->
+                        <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "trawler/components/footer.html" %}
+{% endblock %}
