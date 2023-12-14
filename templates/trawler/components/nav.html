@@ -1,26 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" href="{{ url_for('trawler_index')}}">Start Bootstrap</a>
+        <a class="navbar-brand" href="{{ url_for('trawler_index')}}">
+            <img src="{{ url_for('static', path='trawler/assets/img/trawler_logo_small.png') }}" alt="Logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_index')}}">Home</a></li>
-
-                {% if not request.user.is_authenticated %}
-                <li class="nav-item"><span class="nav-link text-muted">Settings</span></li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings')}}">Settings</a></li>
-                {% endif %}
-
-<!--                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_contact')}}">Contact</a></li>-->
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_index')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px; color: #FFFFFF;">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Settings</a></li>
 
                 {% if not request.user.is_authenticated %}
                 {# request.user.is_authenticated from views.py Request #}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('register')}}">Sign Up</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('login')}}">Sign In</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('register')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Sign-Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Sign-In</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Logout</a></li>
                 {% endif %}
+
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_contact')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Contact</a></li>
             </ul>
         </div>
     </div>

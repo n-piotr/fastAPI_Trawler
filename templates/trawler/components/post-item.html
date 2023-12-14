@@ -1,10 +1,11 @@
 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-    <div class="col-auto"><div class="lead fw-normal text-white">{{ post.title }}</div></div>
+    <div class="col-auto"><div class="samp fw-normal text-white">{{ message.chat.title }}</div></div>
     <div class="col-auto">
-        <span class="small m-0 text-white-50">{{ post.date_created.strftime("%d.%m.%Y %H:%M") }}</span>
+        <span class="small m-0 text-white-50">{{ message.date.strftime("%d.%m.%Y %H:%M") }}</span>
         <span class="text-white-50 mx-1">&middot;</span>
-        <a class="link-light small" href="#!">Telegram link</a>
+        <a class="small" href="https://t.me/{{ message.chat.username }}/{{ message.id }}" style="color: #7DBAD6;">Telegram link</a>
     </div>
 </div>
-<p class="lead fw-normal text-white-50 mb-4">{{ post.body }}</p>
+<p class="samp m-0" style="color: #B0B0B0;">{{ message.text | replace("\n", "<br/>") | safe }}</p>
+
 <br><br>

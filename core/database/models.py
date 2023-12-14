@@ -72,7 +72,6 @@ class User(Base):
     password = Column(CHAR(60), nullable=False)  # hash
     is_active = Column(BOOLEAN, default=False)
     is_staff = Column(BOOLEAN, default=False)
-    # keywords = Column(VARCHAR(256), nullable=True)
     settings = Column(JSONB)
 
     @property

@@ -29,6 +29,8 @@ class Settings(BaseSettings):
     EMAIL_HOST: str
     EMAIL_PORT: int
     EMAIL_USER: str  # from where verification e-mail sent
+    TG_API_ID: str
+    TG_API_HASH: str
 
 
 settings = Settings()

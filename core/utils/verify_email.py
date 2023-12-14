@@ -2,7 +2,6 @@ from uuid import uuid4
 
 from core.settings import redis
 
-
 __all__ = [
     "save_to_redis",
     "get_from_redis",
