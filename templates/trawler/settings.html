@@ -34,6 +34,11 @@ SETTINGS
                             <input class="form-control" id="filter-out" type="text" placeholder="filter-out" value="{{ user.settings['filter_out'] }}" name="filter_out"/>
                             <label for="filter-out">Filter OUT</label>
                         </div>
+                        <!-- depth input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="depth" type="text" placeholder="depth" value="{{ user.settings['depth'] }}" name="depth"/>
+                            <label for="depth">Depth</label>
+                        </div>
                         <!-- Submit Button-->
                         <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
                     </form>

@@ -1,7 +1,5 @@
-import os
 from uuid import uuid4
 
-from dotenv import load_dotenv
 from fastapi import APIRouter, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
@@ -18,6 +16,7 @@ from core.types import UserDetail, UserRegisterForm, UserLoginForm
 from core.utils import create_user_verify_url, get_auth_user
 from core.tasks import send_email
 from core.dependencies import IsAuthenticated
+from . import get_tg_messages
 
 router = APIRouter()
 
@@ -28,32 +27,20 @@ router = APIRouter()
     name="trawler_index"
 )
 async def index(request: Request):
-    # print(request.user)  # core.middleware.auth.AuthenticatedUser object
-    with session() as s:
-        objs = s.query(Post).all()
+    # print(request.user.identity)  # core.middleware.auth.AuthenticatedUser object
+    # b'01HHHSW8XQY9F3T0KBN9X3C3XJ'
+    # NotImplementedError - if user is not authenticated
 
-    # ----------- Pyrogram ---------
-    api_id = settings.TG_API_ID
-    api_hash = settings.TG_API_HASH
-    app = Client("/web/telegram/my_account", api_id=api_id, api_hash=api_hash)
+    # with session() as s:
+    #     objs = s.query(Post).all()
 
-    tg_objs = []
-    async with app:
-        # tg_objs = app.get_chat_history("tele31415group", limit=1)
-        async for message in app.get_chat_history("myresume_ru", limit=10):
-            tg_objs.append(message)
-
-    # print(tg_objs)
-    # ----------- Pyrogram ---------
+    tg_messages = await get_tg_messages(request=request)
 
     return templating.TemplateResponse(
         name="trawler/index.html",
         context={
             "request": request,
-            "posts": objs,
-            "api_id": api_id,
-            "api_hash": api_hash,
-            "tg_objs": tg_objs
+            "tg_messages": tg_messages,
         }
     )
 
@@ -90,6 +77,7 @@ async def _contact(
     return await contact(request=request)
 
 
+# TODO redirect to index after successful login
 @router.get(
     path="/login",
     response_class=HTMLResponse,
@@ -186,7 +174,8 @@ async def _register(request: Request, data: UserRegisterForm = Depends(dependenc
 )
 async def user_settings(request: Request):
 
-    user = await get_auth_user(request=request)
+    user = await get_auth_user(request=request)  # TEMP, can get user from request:
+    # print(request.user.identity)
 
     return templating.TemplateResponse(
         name="trawler/settings.html",
@@ -206,7 +195,8 @@ async def _user_settings(
         request: Request,
         tg_groups: str = Form(),
         filter_in: str = Form(),
-        filter_out: str = Form()
+        filter_out: str = Form(),
+        depth: int = Form()
 ):
     user = await get_auth_user(request=request)
     print(user.email)  # TEMP
@@ -215,4 +205,5 @@ async def _user_settings(
     print(tg_groups)
     print(filter_in)
     print(filter_out)
+    print(depth)
     return await settings(request=request)

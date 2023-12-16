@@ -7,7 +7,7 @@ from core.settings import redis
 __all__ = ["get_auth_user"]
 
 
-async def get_auth_user(request: Request):
+async def get_auth_user(request: Request):  # TODO maybe no need for this function in settings
     """ Get currently authenticated user from database """
 
     # Get session ID from cookies

@@ -19,7 +19,7 @@ from web.views import router as web_router
 
 app = FastAPI(
     title="Trawler",
-    summary="Collect filtered jobs postings in Telegram public groups",
+    summary="Collect filtered posts in Telegram public groups",
     default_response_class=ORJSONResponse,
     exception_handlers={
         401: not_authenticated
@@ -36,17 +36,18 @@ app.add_middleware(
     allow_methods=("GET", "POST", "PATCH", "DELETE", "HEAD")
 )
 
-# when API ONLY (else auth collisions):
+# >> when API ONLY (else auth collisions):
 # app.add_middleware(
 #     middleware_class=AuthenticationMiddleware,
 #     backend=JWTAuthenticationBackend()
 # )
 
-# when web app ONLY (else auth collisions):
+# >> when web app ONLY (else auth collisions):
 app.add_middleware(
     middleware_class=AuthenticationMiddleware,
     backend=SessionAuthenticationBackend()
 )
+
 app.include_router(router=api_router)
 app.include_router(router=web_router)
 admin = Admin(app=app, engine=engine)
