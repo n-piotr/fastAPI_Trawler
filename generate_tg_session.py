@@ -2,7 +2,7 @@
 from https://docs.pyrogram.org/intro/quickstart:
 
 - Install Pyrogram with pip3 install -U pyrogram.
-- Obtain the API_ID and API_HASH by following Telegram’s instructions and rules at https://core.telegram.org/api/obtaining_api_id.
+- Obtain the API_ID and API_HASH by following Telegram’s instructions and rules at https://core.telegram.org/api/obtaining_api_id
 - Save TG_API_ID = '***' and TG_API_HASH = '***' in .env file
 - Run this script
 - Follow the instructions on your terminal to login.
