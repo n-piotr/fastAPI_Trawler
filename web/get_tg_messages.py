@@ -28,13 +28,12 @@ async def get_tg_messages(request: Request) -> list:
 
     tg_messages = []  # prepare messages list for template
 
-    for group in tg_groups:
-        # sleep(1)  # TODO to avoid FLOOD_WAIT from telegram
-        # print("sleep 1")
-        async with app:
+    async with app:
+        for group in tg_groups:
             async for message in app.get_chat_history(chat_id=group, limit=depth):
 
-                # TODO apply filters (from separate module), if pass then:
+                # TODO apply filters (from separate module). chat.title + text
+                # if pass then:
                 tg_messages.append(message)
 
     return tg_messages
