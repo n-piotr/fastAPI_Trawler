@@ -17,6 +17,22 @@ __all__ = [
 ]
 
 
+# class UserSettingsForm(Schema):
+#     settings: dict
+#
+#     @classmethod
+#     def as_form(
+#             cls,
+#             tg_groups: str = Form(),
+#             filter_in: str = Form(),
+#             filter_out: str = Form(),
+#             depth: int = Form()
+#     ) -> Self:
+#         return cls(
+#             settings=dict(tg_groups=tg_groups, filter_in=filter_in, filter_out=filter_out, depth=depth)
+#         )
+
+
 class UserLoginForm(Schema):
     email: EmailStr
     password: PasswordStr
