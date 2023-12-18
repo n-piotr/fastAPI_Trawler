@@ -72,7 +72,9 @@ class User(Base):
     password = Column(CHAR(60), nullable=False)  # hash
     is_active = Column(BOOLEAN, default=False)
     is_staff = Column(BOOLEAN, default=False)
-    settings = Column(JSONB)
+    settings = Column(JSONB,
+                      default={"tg_groups": "telegram_groups", "filter_in": "python", "filter_out": "snake", "depth": 1}
+                      )
 
     @property
     def date_register(self):
