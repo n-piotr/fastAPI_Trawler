@@ -155,7 +155,7 @@ async def register(request: Request):
     name="register"
 )
 async def _register(request: Request, data: UserRegisterForm = Depends(dependency=UserRegisterForm.as_form)):
-    user = UserDetail.create(data=data)
+    user = UserDetail.create(data=data)  # extracts email and pass from data, hashes pass
     try:
         user = user_repository.create(obj=user, exclude={"date_register"})
     except IntegrityError:
@@ -198,12 +198,23 @@ async def _user_settings(
         filter_out: str = Form(),
         depth: int = Form()
 ):
-    user = await get_auth_user(request=request)
-    print(user.email)  # TEMP
+    # user = await get_auth_user(request=request)
 
-    # actions TODO update user settings in db
-    print(tg_groups)
-    print(filter_in)
-    print(filter_out)
-    print(depth)
-    return await settings(request=request)
+    user_id = request.user.identity
+
+    with session() as s:
+        user = s.query(User).filter_by(id=user_id.decode()).first()
+        # print(user.settings)
+        # The JSON type, when used with the SQLAlchemy ORM, does not detect in-place mutations to the structure
+
+        new_settings = user.settings.copy()  # create a copy of the settings
+        new_settings['tg_groups'] = tg_groups  # update the copy
+        new_settings['filter_in'] = filter_in
+        new_settings['filter_out'] = filter_out
+        new_settings['depth'] = depth
+        # print(new_settings)
+        user.settings = new_settings  # assign the updated copy back to user.settings
+        # print(user.settings)
+        s.commit()
+
+    return await user_settings(request=request)
