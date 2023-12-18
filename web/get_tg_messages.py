@@ -1,3 +1,5 @@
+from time import sleep
+
 from pyrogram import Client
 
 from fastapi.requests import Request
@@ -21,12 +23,14 @@ async def get_tg_messages(request: Request) -> list:
         depth = int(user.settings['depth'])
 
     else:  # if no User authenticated
-        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob", "young_june", "workayte"]
+        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]
         depth = 1
 
     tg_messages = []  # prepare messages list for template
 
     for group in tg_groups:
+        # sleep(1)  # TODO to avoid FLOOD_WAIT from telegram
+        # print("sleep 1")
         async with app:
             async for message in app.get_chat_history(chat_id=group, limit=depth):
 
