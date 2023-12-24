@@ -98,6 +98,7 @@ async def login(request: Request):
     name="login"
 )
 async def _login(request: Request, data: UserLoginForm = Depends(dependency=UserLoginForm.as_form)):
+
     user = user_repository.get_by_email(email=data.email)
     if user is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="user not found")
@@ -107,6 +108,8 @@ async def _login(request: Request, data: UserLoginForm = Depends(dependency=User
 
     if not data.validate_password(hash_password=user.password):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="password invalid")
+    # TODO fix (): pydantic_core._pydantic_core.ValidationError: 1 validation error for UserLoginForm / password /
+    #  Predicate <lambda> failed [type=predicate_failed, input_value='мукнЫекщтп1!', input_type=str]
 
     # SESSION AUTHORIZATION:
     response = await login(request=request)  # get TemplateResponse
