@@ -10,7 +10,7 @@ from redis.asyncio import Redis
 
 from core.settings import settings, static
 from core.database import engine
-from core.admin import CategoryAdmin, PostAdmin, UserAdmin
+from core.admin import CategoryAdmin, PostAdmin, UserAdmin, MessageAdmin
 from core.middleware import JWTAuthenticationBackend, SessionAuthenticationBackend
 from core.exception_handlers import not_authenticated
 
@@ -54,6 +54,7 @@ admin = Admin(app=app, engine=engine)
 admin.add_view(view=PostAdmin)
 admin.add_view(view=CategoryAdmin)
 admin.add_view(view=UserAdmin)
+admin.add_view(view=MessageAdmin)
 
 
 @app.on_event("startup")

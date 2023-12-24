@@ -6,6 +6,7 @@ __all__ = [
     "Category",
     "Post",
     "User",
+    "Message",
     "engine",
     "session"
 ]
