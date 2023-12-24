@@ -19,7 +19,7 @@ async def get_tg_messages(request: Request) -> list:
         tg_groups = user.settings['tg_groups'].replace(" ", "").split(",")
         filter_in = user.settings['filter_in'].replace(" ", "").split(",")
         filter_out = user.settings['filter_out'].replace(" ", "").split(",")
-        depth = int(user.settings['depth'])  # TODO check if INT needed
+        depth = user.settings['depth']
 
     else:  # if no authenticated User (example)
         tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]  # TODO if tg group change chat.title, better to use IDs
