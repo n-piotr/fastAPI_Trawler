@@ -5,11 +5,12 @@ from passlib.context import CryptContext
 from pydantic import PostgresDsn, SecretStr, RedisDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from redis.asyncio import Redis
+from pyrogram import Client
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-__all__ = ["settings", "pwd_context", "static", "templating", "redis"]
+__all__ = ["settings", "pwd_context", "static", "templating", "redis", "tg_client"]
 
 
 class Settings(BaseSettings):
@@ -36,6 +37,7 @@ class Settings(BaseSettings):
 settings = Settings()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 redis = Redis.from_url(url=settings.REDIS_URL.unicode_string())
+tg_client = Client("/web/tg_account", api_id=settings.TG_API_ID, api_hash=settings.TG_API_HASH)  # telegram client
 
 static = StaticFiles(
     directory=settings.BASE_DIR / "static"

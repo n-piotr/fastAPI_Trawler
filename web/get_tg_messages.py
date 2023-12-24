@@ -1,18 +1,12 @@
-from time import sleep
-
 from pyrogram import Client
 
 from fastapi.requests import Request
 from core.database import session, User
-from core.settings import settings
+from core.settings import tg_client
 
 from .filter_tg_message import filter_tg_message
 
 __all__ = ["get_tg_messages"]
-
-api_id = settings.TG_API_ID
-api_hash = settings.TG_API_HASH
-app = Client("/web/tg_account", api_id=api_id, api_hash=api_hash)
 
 
 async def get_tg_messages(request: Request) -> list:
@@ -25,18 +19,18 @@ async def get_tg_messages(request: Request) -> list:
         tg_groups = user.settings['tg_groups'].replace(" ", "").split(",")
         filter_in = user.settings['filter_in'].replace(" ", "").split(",")
         filter_out = user.settings['filter_out'].replace(" ", "").split(",")
-        depth = int(user.settings['depth'])
+        depth = int(user.settings['depth'])  # TODO check if INT needed
 
     else:  # if no authenticated User (example)
-        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]
+        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]  # TODO if tg group change chat.title, better to use IDs
         depth = 1
 
     tg_messages = []  # prepare messages list for template
 
-    async with app:
+    async with tg_client:
         for group in tg_groups:
 
-            async for message in app.get_chat_history(chat_id=group, limit=depth):
+            async for message in tg_client.get_chat_history(chat_id=group, limit=depth):
 
                 if request.user.is_authenticated:
                     # Applying filter from User's settings
