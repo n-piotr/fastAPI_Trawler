@@ -5,3 +5,33 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+
+//let a = "HELLO";
+//console.log(a)
+
+$("#save-message").on("click", save_message)
+
+function save_message(e) {
+//    console.log(e);
+    e.preventDefault();
+    let messageData = {
+        tg_chat_username: this.dataset.username,
+        tg_chat_id: this.dataset.id
+    }
+    $.ajax(
+        {
+            url: "http://127.0.0.1:8000/save_message",
+            method: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(messageData),
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        }
+    )
+    console.log("Message saved")
+}

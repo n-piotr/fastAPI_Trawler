@@ -3,6 +3,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
+from pydantic import BaseModel
 from pyrogram import Client
 from sqlalchemy.exc import IntegrityError
 from starlette import status
@@ -221,3 +222,17 @@ async def _user_settings(
         s.commit()
 
     return await user_settings(request=request)
+
+
+class MessageData(BaseModel):  # TEMP, clean up
+    tg_chat_username: str
+    tg_chat_id: int
+
+
+@router.post(
+    path="/save_message",
+    # name="save_message"
+)
+async def save_message(data: MessageData):
+    return f"https://t.me/{data.tg_chat_username}/{data.tg_chat_id}"
+    # return {"status": True}

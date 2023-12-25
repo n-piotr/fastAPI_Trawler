@@ -32,8 +32,10 @@ app.mount(
 )
 app.add_middleware(
     middleware_class=CORSMiddleware,
-    allow_origins="*",
-    allow_methods=("GET", "POST", "PATCH", "DELETE", "HEAD")
+    allow_origins=("*", ),
+    allow_methods=("GET", "POST", "PATCH", "DELETE", "HEAD"),
+    allow_headers=("*", ),
+    allow_credentials=True
 )
 
 # >> when API ONLY (else auth collisions):

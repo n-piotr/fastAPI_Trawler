@@ -3,6 +3,8 @@
     <div class="col-auto">
         <span class="small m-0 text-white-50">{{ message.date.strftime("%d.%m.%Y %H:%M") }}</span>
         <span class="text-white-50 mx-1">&middot;</span>
+        <button id="save-message" data-username="{{ message.chat.username }}" data-id="{{ message.id }}">+</button>
+        <span class="text-white-50 mx-1">&middot;</span>
         <a class="small" href="https://t.me/{{ message.chat.username }}/{{ message.id }}" style="color: #7DBAD6;">Telegram link</a>
     </div>
 </div>
