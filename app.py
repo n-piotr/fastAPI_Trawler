@@ -32,7 +32,7 @@ app.mount(
 )
 app.add_middleware(
     middleware_class=CORSMiddleware,
-    allow_origins=("0.0.0.0", "127.0.0.1", "*"),
+    allow_origins="*",
     allow_methods=("GET", "POST", "PATCH", "DELETE", "HEAD")
 )
 
