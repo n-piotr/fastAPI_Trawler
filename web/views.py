@@ -12,7 +12,7 @@ from starlette.responses import RedirectResponse
 from core.repositories import user_repository
 from core.settings import templating, redis
 from core.settings import settings
-from core.database import session, Post, User
+from core.database import session, Post, User, Message
 from core.types import UserDetail, UserRegisterForm, UserLoginForm
 from core.utils import create_user_verify_url, get_auth_user
 from core.tasks import send_email
@@ -42,6 +42,30 @@ async def index(request: Request):
         context={
             "request": request,
             "tg_messages": tg_messages,
+        }
+    )
+
+
+@router.get(
+    path="/saved",
+    response_class=HTMLResponse,
+    name="saved",
+    dependencies=[IsAuthenticated]  # TODO add to Admin
+)
+async def saved(request: Request):
+
+    user_id = request.user.identity.decode()
+
+    with session() as s:
+        saved_messages = s.query(Message).filter(Message.user_id == user_id).all()
+
+    # print(saved_messages)
+
+    return templating.TemplateResponse(
+        name="trawler/saved.html",
+        context={
+            "request": request,
+            "saved_messages": saved_messages,
         }
     )
 
@@ -226,13 +250,23 @@ async def _user_settings(
 
 class MessageData(BaseModel):  # TEMP, clean up
     tg_chat_username: str
-    tg_chat_id: int
+    tg_message_id: int
 
 
 @router.post(
     path="/save_message",
     # name="save_message"
 )
-async def save_message(data: MessageData):
-    return f"https://t.me/{data.tg_chat_username}/{data.tg_chat_id}"
-    # return {"status": True}
+async def save_message(data: MessageData, request: Request):
+
+    new_message = Message(
+        tg_chat_username=data.tg_chat_username,
+        tg_message_id=data.tg_message_id,
+        user_id=request.user.identity.decode()
+    )
+
+    with session() as s:
+        s.add(new_message)
+        s.commit()
+
+    return {"status": "Message Saved"}
