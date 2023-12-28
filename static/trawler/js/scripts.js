@@ -9,14 +9,14 @@
 //let a = "HELLO";
 //console.log(a)
 
-$("#save-message").on("click", save_message)
+$(".save-message").on("click", save_message)  // .save-message class from html
 
 function save_message(e) {
 //    console.log(e);
     e.preventDefault();
     let messageData = {
         tg_chat_username: this.dataset.username,
-        tg_chat_id: this.dataset.id
+        tg_message_id: this.dataset.id
     }
     $.ajax(
         {
@@ -33,5 +33,5 @@ function save_message(e) {
             }
         }
     )
-    console.log("Message saved")
+    console.log(messageData);
 }
