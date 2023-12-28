@@ -3,11 +3,15 @@
     <div class="col-auto">
         <span class="small m-0 text-white-50">{{ message.date.strftime("%d.%m.%Y %H:%M") }}</span>
         <span class="text-white-50 mx-1">&middot;</span>
-        <button id="save-message" data-username="{{ message.chat.username }}" data-id="{{ message.id }}">+</button>
+        <button class="save-message" data-username="{{ message.chat.username }}" data-id="{{ message.id }}" style="background: transparent; border: none;">
+            <img src="{{ url_for('static', path='trawler/assets/img/bookmark_icon.png') }}" alt="Save" style="width: 18px; height: 18px;">
+        </button>
         <span class="text-white-50 mx-1">&middot;</span>
         <a class="small" href="https://t.me/{{ message.chat.username }}/{{ message.id }}" style="color: #7DBAD6;">Telegram link</a>
     </div>
 </div>
 <p class="samp m-0" style="color: #B0B0B0;">{{ message.text | replace("\n", "<br/>") | safe }}</p>
 
-<br><br>
+<br>
+<div style="background-image: url('{{ url_for('static', path='trawler/assets/img/wave_line_small.png') }}'); background-repeat: repeat-x; height: 8px;"></div>
+<br>
