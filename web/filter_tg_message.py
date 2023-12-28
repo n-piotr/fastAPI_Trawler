@@ -16,6 +16,13 @@ async def filter_tg_message(filter_in, filter_out, message):  # TODO types
             return False
 
     # Filter OUT
-    # ... TODO
+    for key in filter_out:  # TODO except optimization
+        try:
+            if key.lower() in message.text.lower():
+                print(f"> {message.chat.title} / {message.text[:20]}... FILTERED OUT {key.lower()}")
+                return False
+        except TypeError as e:  # TODO processing messages with images
+            print(f"> Caught an error: {e}. (https://t.me/{message.chat.username}/{message.id})")
+            return False
 
     return True
