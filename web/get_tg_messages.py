@@ -22,8 +22,8 @@ async def get_tg_messages(request: Request) -> list:
         depth = user.settings['depth']
 
     else:  # if no authenticated User (example)
-        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]  # TODO if tg group change chat.title, better to use IDs
-        depth = 1
+        tg_groups = ["myresume_ru", "juno_jobs", "pydevjob"]  # TODO tg group CAN change chat.username, better to use ID
+        depth = 2
 
     tg_messages = []  # prepare messages list for template
 
