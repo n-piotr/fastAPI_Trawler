@@ -8,6 +8,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('trawler_index')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px; color: #FFFFFF;">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('settings')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('saved')}}" style="font-family: Consolas, 'Courier New', monospace; font-size: 17px;">Saved</a></li>
 
                 {% if not request.user.is_authenticated %}
                 {# request.user.is_authenticated from views.py Request #}
