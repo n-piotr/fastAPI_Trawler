@@ -29,7 +29,7 @@ class UserAdmin(ModelView, model=User):
 
 class MessageAdmin(ModelView, model=Message):
     name_plural = "сообщения"
-    column_list = ["tg_chat_username", "tg_message_id", "user_id"]
+    column_list = ["id", "tg_chat_username", "tg_message_id", "user_id"]
 
 
 
